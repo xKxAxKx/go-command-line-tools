@@ -8,21 +8,6 @@ import (
 	"time"
 )
 
-const otherWord = "*"
-
-var transforms = []string{
-	otherWord,
-	otherWord,
-	otherWord,
-	otherWord,
-	otherWord + "app",
-	otherWord + "site",
-	otherWord + "time",
-	"get" + otherWord,
-	"go" + otherWord,
-	"lets " + otherWord,
-}
-
 func main() {
 	rand.Seed(time.Now().UTC().UnixNano())
 	s := bufio.NewScanner(os.Stdin)
