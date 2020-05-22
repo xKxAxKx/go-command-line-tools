@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"math/rand"
 	"os"
-	"strings"
 	"time"
 )
 
@@ -27,8 +26,21 @@ var transforms = []string{
 func main() {
 	rand.Seed(time.Now().UTC().UnixNano())
 	s := bufio.NewScanner(os.Stdin)
+
+	file, err := os.Open("words.txt")
+	if err != nil {
+		fmt.Println("error")
+	}
+	defer file.Close()
+
+	var lines []string
+	scanner := bufio.NewScanner(file)
+	for scanner.Scan() {
+		lines = append(lines, scanner.Text())
+	}
+
 	for s.Scan() {
-		t := transforms[rand.Intn(len(transforms))]
-		fmt.Println(strings.Replace(t, otherWord, s.Text(), -1))
+		t := lines[rand.Intn(len(lines))]
+		println(s.Text() + t)
 	}
 }
