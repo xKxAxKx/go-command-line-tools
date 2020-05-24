@@ -2,6 +2,7 @@ package main
 
 import (
 	"bufio"
+	"flag"
 	"fmt"
 	"math/rand"
 	"os"
@@ -10,13 +11,22 @@ import (
 	"unicode"
 )
 
-var tlds = []string{"com", "net", "co.jp"}
+var tlds string
 
 const allowedChars = "abcdefghijklmnopqrstuvwxyz0123456789_-"
 
 func main() {
 	rand.Seed(time.Now().UTC().UnixNano())
 	s := bufio.NewScanner(os.Stdin)
+
+	// --tlds 0 com co.jp net みたいな感じで使う
+	flag.StringVar(&tlds, "tlds", "", "")
+	flag.Parse()
+	t := flag.Args()
+	if len(t) == 0 {
+		t = append(t, "com")
+	}
+
 	for s.Scan() {
 		text := strings.ToLower(s.Text())
 		var newText []rune
@@ -30,6 +40,6 @@ func main() {
 			newText = append(newText, r)
 		}
 		fmt.Println(string(newText) + "." +
-			tlds[rand.Intn(len(tlds))])
+			t[rand.Intn(len(t))])
 	}
 }
